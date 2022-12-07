@@ -22,7 +22,6 @@ import { NavComponent } from './nav/nav.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    NgbModule,
     BrowserAnimationsModule,
     CollapseModule.forRoot()
   ],
