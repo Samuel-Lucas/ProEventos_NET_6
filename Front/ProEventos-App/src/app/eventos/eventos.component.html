@@ -3,12 +3,18 @@
 <form action="" class="row row-cols-lg-auto g-3 align-items-center mb-2">
  
   <div class="col-12">
-    <input type="text" class="form-control mr-2" placeholder="buscar">
+    <input
+    type="text"
+    class="form-control mr-2"
+    placeholder="buscar"
+    [(ngModel)]="filterList"
+    />
   </div>
   <div class="col-12">
     <button class="btn btn-outline-success">Buscar</button>
   </div>
 </form>
+<h3>Filtro: {{ filterList }}</h3>
 <table class="table table-striped">
   <thead class="table-dark">
     <tr>
