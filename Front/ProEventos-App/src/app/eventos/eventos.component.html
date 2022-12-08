@@ -12,8 +12,10 @@
 <table class="table table-striped">
   <thead class="table-dark">
     <tr>
+      <th>
+        <button (click)="switchImageState()" class="btn btn-outline-light btn-sm">{{ !showImage ? "Mostrar" : "Ocultar" }}</button>
+      </th>
       <th>#</th>
-      <th>Imagem</th>
       <th>Tema</th>
       <th>Local</th>
       <th>Data</th>
@@ -24,7 +26,8 @@
   </thead>
   <tbody *ngIf="eventos && eventos.length">
     <tr *ngFor="let evento of eventos">
-      <td>
+      <td [collapse]="!showImage"
+          [isAnimated]="true">
         <img src="/assets/{{ evento.imagemUrl }}"
         [style.width.px]="widthImg"
         [style.margin.px]="marginImg" />

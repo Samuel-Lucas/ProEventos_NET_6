@@ -9,8 +9,9 @@ import { Component, OnInit } from '@angular/core';
 export class EventosComponent implements OnInit {
 
   public eventos:any = [];
-  widthImg: number = 50
+  widthImg: number =125
   marginImg: number = 2
+  showImage: boolean = true;
 
   constructor(private http: HttpClient) { }
 
@@ -24,5 +25,9 @@ export class EventosComponent implements OnInit {
       response => this.eventos = response,
       error => console.log(error)
     );
+  }
+
+  public switchImageState() {
+    this.showImage = !this.showImage;
   }
 }
