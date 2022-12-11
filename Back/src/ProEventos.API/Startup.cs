@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using ProEventos.Persistence;
+using ProEventos.Persistence.Context;
 
 namespace ProEventos.API;
 
