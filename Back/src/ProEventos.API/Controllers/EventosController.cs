@@ -33,7 +33,7 @@ public class EventosController : ControllerBase
         }
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("BuscaEventoPorId/{id}")]
     public async Task<IActionResult> GetById(int id)
     {
         try
@@ -50,7 +50,7 @@ public class EventosController : ControllerBase
         }
     }
 
-    [HttpGet("{tema}")]
+    [HttpGet("BuscaEventoPorTema/{tema}")]
     public async Task<IActionResult> GetByTema(string tema)
     {
         try

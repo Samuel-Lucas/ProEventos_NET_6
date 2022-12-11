@@ -5,6 +5,7 @@ using ProEventos.Application.Services;
 using ProEventos.Persistence;
 using ProEventos.Persistence.Context;
 using ProEventos.Persistence.Interfaces;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 
 namespace ProEventos.API;
 
@@ -23,7 +24,8 @@ public class Startup
         services.AddDbContext<ProEventosContexto>(
             context => context.UseSqlite(Configuration.GetConnectionString("Default"))
         );
-        services.AddControllers();
+        services.AddControllers()
+                .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         services.AddCors();
         services.AddScoped<IEventosServices, EventosServices>();
         services.AddScoped<IGeralPersist, GeralPersist>();
