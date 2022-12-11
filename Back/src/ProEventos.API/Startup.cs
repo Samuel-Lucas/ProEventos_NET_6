@@ -1,6 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using ProEventos.Application.Interfaces;
+using ProEventos.Application.Services;
+using ProEventos.Persistence;
 using ProEventos.Persistence.Context;
+using ProEventos.Persistence.Interfaces;
 
 namespace ProEventos.API;
 
@@ -21,6 +25,10 @@ public class Startup
         );
         services.AddControllers();
         services.AddCors();
+        services.AddScoped<IEventosServices, EventosServices>();
+        services.AddScoped<IGeralPersist, GeralPersist>();
+        services.AddScoped<IEventoPersist, EventoPersist>();
+        services.AddScoped<IPalestrantePersist, PalestrantePersist>();
         services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProEventos.API", Version = "v1" });

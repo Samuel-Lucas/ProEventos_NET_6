@@ -10,7 +10,6 @@ namespace ProEventos.API.Controllers;
 public class EventosController : ControllerBase
 {
     private readonly IEventosServices _eventosServices;
-    private readonly ILogger<EventosController> _logger;
 
     public EventosController(IEventosServices eventosServices)
     {
@@ -30,7 +29,7 @@ public class EventosController : ControllerBase
         }
         catch (Exception ex)
         {
-            return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar recuperar eventos. Erro {ex.Message}");
+            return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar recuperar eventos. Erro {ex.Message} \n {ex.StackTrace}");
         }
     }
 
