@@ -79,19 +79,55 @@ namespace ProEventos.Application.Services
             }
         }
 
-        public Task<Evento[]> GetAllEventosAsync(bool includePalestrantes = false)
+        public async Task<Evento[]> GetAllEventosAsync(bool includePalestrantes = false)
         {
-            return default;
+            try
+            {
+                var eventos = await _eventoPersist.GetAllEventosAsync(includePalestrantes);
+
+                if(eventos == null)
+                    return null;
+                
+                return eventos;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public Task<Evento> GetAllEventosByIdAsync(int eventoId, bool includePalestrantes = false)
+        public async Task<Evento> GetAllEventosByIdAsync(int eventoId, bool includePalestrantes = false)
         {
-            return default;
+            try
+            {
+                var evento = await _eventoPersist.GetAllEventosByIdAsync(eventoId, includePalestrantes);
+
+                if(evento == null)
+                    return null;
+                
+                return evento;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public Task<Evento[]> GetAllEventosByTemaAsync(string tema, bool includePalestrantes = false)
+        public async Task<Evento[]> GetAllEventosByTemaAsync(string tema, bool includePalestrantes = false)
         {
-            return default;
+            try
+            {
+                var eventoPorTema = await _eventoPersist.GetAllEventosByTemaAsync(tema, includePalestrantes);
+
+                if(eventoPorTema == null)
+                    return null;
+                
+                return eventoPorTema;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }
