@@ -16,7 +16,10 @@
   <thead class="table-dark">
     <tr>
       <th>
-        <button (click)="switchImageState()" class="btn btn-outline-light btn-sm">{{ !showImage ? "Mostrar" : "Ocultar" }}</button>
+        <button (click)="switchImageState()" class="btn btn-outline-light btn-sm">
+          <i class="{{ !showImage ? 'fa fa-eye' : 'fa fa-eye-slash' }}"></i>
+          {{ !showImage ? "Exibir" : "Ocultar" }}
+        </button>
       </th>
       <th>#</th>
       <th>Tema</th>
@@ -39,10 +42,14 @@
       <td>{{ evento.local }}</td>
       <td>{{ evento.dataEvento }}</td>
       <td>{{ evento.qtdPessoas }}</td>
-      <td>{{ evento.lotes }}</td>
+      <td>provisório <!--{{ evento.lotes[0].nome }} --></td>
       <td>
-        <button class="btn btn-primary btn-sm">Editar</button><br />
-        <button class="btn btn-danger btn-sm mt-2">Excluir</button>
+        <button class="btn btn-primary btn-sm">
+          <i class="fa fa-edit"></i>
+        </button>
+        <button class="btn btn-danger btn-sm">
+          <i class="fa fa-trash"></i>
+        </button>
       </td>
     </tr>
   </tbody>
