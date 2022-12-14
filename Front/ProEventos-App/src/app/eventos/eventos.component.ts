@@ -38,18 +38,21 @@ export class EventosComponent implements OnInit {
   constructor(private eventoService: EventoService) { }
 
   ngOnInit(): void {
-    this.getEventos();
+    this.getEventos()
   }
 
   public getEventos(): void {
 
-    this.eventoService.getEventos().subscribe(
-      (_eventos: Evento[]) => {
-        this.eventos = _eventos
+    const observer = {
+      next: (eventos:Evento[]) => {
+        this.eventos = eventos
         this.eventosFiltrados = this.eventos
       },
-      error => console.log(error)
-    );
+      error: (error: any) => console.log(error),
+      complete: () => {}
+    }
+
+    this.eventoService.getEventos().subscribe(observer);
   }
 
   public switchImageState(): void {
