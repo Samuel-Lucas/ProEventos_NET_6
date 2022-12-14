@@ -32,22 +32,22 @@
   </thead>
   <tbody *ngIf="eventos && eventos.length">
     <tr *ngFor="let evento of eventosFiltrados">
-      <td [collapse]="!showImage">
+      <td class="text-center pt-4 pb-5" style="height: 100%;" [collapse]="!showImage">
         <img src="/assets/{{ evento.imagemUrl }}"
         [style.width.px]="widthImg"
         [style.margin.px]="marginImg" />
       </td>
-      <td>{{ evento.id }}</td>
-      <td>{{ evento.tema }}</td>
-      <td>{{ evento.local }}</td>
-      <td>{{ evento.dataEvento | DateTimeFormatPipe }}</td>
-      <td>{{ evento.qtdPessoas }}</td>
-      <td>provisório <!--{{ evento.lotes[0].nome }} --></td>
-      <td>
+      <td class="justify-content-center py-5">{{ evento.id }}</td>
+      <td class="justify-content-center py-5">{{ evento.tema }}</td>
+      <td class="justify-content-center py-5">{{ evento.local }}</td>
+      <td class="justify-content-center py-5">{{ evento.dataEvento | DateTimeFormatPipe }}</td>
+      <td class="justify-content-center py-5">{{ evento.qtdPessoas }}</td>
+      <td class="justify-content-center py-5">provisório <!--{{ evento.lotes[0].nome }} --></td>
+      <td class="flex-row py-5">
         <button class="btn btn-primary btn-sm">
           <i class="fa fa-edit"></i>
         </button>
-        <button class="btn btn-danger btn-sm">
+        <button class="btn btn-danger btn-sm ml-2">
           <i class="fa fa-trash"></i>
         </button>
       </td>

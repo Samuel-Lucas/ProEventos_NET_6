@@ -14,7 +14,7 @@ export class EventosComponent implements OnInit {
   public eventosFiltrados: Evento[] = []
 
   widthImg: number = 125
-  marginImg: number = 2
+  marginImg: number = 0
   showImage: boolean = true
   private _filtroLista: string = ''
 
