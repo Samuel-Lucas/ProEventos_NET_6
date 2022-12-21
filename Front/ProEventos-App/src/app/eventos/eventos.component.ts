@@ -72,7 +72,7 @@ export class EventosComponent implements OnInit {
  
   confirm(): void {
     this.modalRef?.hide()
-    this.toastr.success('Hello world!', 'Toastr fun!')
+    this.toastr.success('Evento deletado com sucesso', 'Deletado !')
   }
  
   decline(): void {
