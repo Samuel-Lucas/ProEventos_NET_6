@@ -5,16 +5,16 @@
         <div class="form-group col-md-12">
           <label>Tema</label>
           <input type="text" class="form-control"
-          [ngClass]="{'is-invalid': form.get('tema').errors && form.get('tema').touched}"
+          [ngClass]="{'is-invalid': f.tema.errors && f.tema.touched}"
           formControlName="tema"
           placeholder="Insira o Tema">
-          <div class="invalid-feedback" *ngIf="form.get('tema').hasError('required')">
+          <div class="invalid-feedback" *ngIf="f.tema.errors?.required">
             tema é obrigatório
           </div>
-          <div class="invalid-feedback" *ngIf="form.get('tema').hasError('minlength')">
+          <div class="invalid-feedback" *ngIf="f.tema.errors?.minlength">
             tema deve ter no mínimo 4 caracteres
           </div>
-          <div class="invalid-feedback" *ngIf="form.get('tema').hasError('maxlength')">
+          <div class="invalid-feedback" *ngIf="f.tema.errors?.maxlength">
             tema deve ter no máximo 50 caracteres
           </div>
         </div>
