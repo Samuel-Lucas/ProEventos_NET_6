@@ -52,7 +52,7 @@
           <div class="invalid-feedback" *ngIf="f.email.errors?.required">
             E-mail é obrigatório
           </div>
-          <div class="invalid-feedback" *ngIf="f.email.errors?.email && f.email.errors?.touched">
+          <div class="invalid-feedback" *ngIf="f.email.errors?.email">
             deve ser um endereço de E-mail válido
           </div>
       </div>
