@@ -38,4 +38,8 @@ export class PerfilComponent implements OnInit {
       confirmaSenha: ['', Validators.required]
     }, formOptions)
   }
+
+  public resetForm(): void {
+    this.form.reset()
+  }
 }
