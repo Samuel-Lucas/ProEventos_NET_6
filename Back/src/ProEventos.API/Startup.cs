@@ -5,7 +5,7 @@ using ProEventos.Application.Services;
 using ProEventos.Persistence;
 using ProEventos.Persistence.Context;
 using ProEventos.Persistence.Interfaces;
-using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+using AutoMapper;
 
 namespace ProEventos.API;
 
@@ -26,6 +26,9 @@ public class Startup
         );
         services.AddControllers()
                 .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        
         services.AddCors();
         services.AddScoped<IEventosServices, EventosServices>();
         services.AddScoped<IGeralPersist, GeralPersist>();
