@@ -72,7 +72,7 @@ public class EventosController : ControllerBase
     {
         try
         {
-            var evento = await _eventosServices.AddEventos(model);
+            var evento = await _eventosServices.AddEvento(model);
             if (evento == null)
                 return BadRequest($"Erro ao tentar incluir evento");
             

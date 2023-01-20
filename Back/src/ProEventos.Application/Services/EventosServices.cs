@@ -19,15 +19,18 @@ namespace ProEventos.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<EventoDto> AddEventos(EventoDto model)
+        public async Task<EventoDto> AddEvento(EventoDto model)
         {
             try
             {
-                _geralPersist.Add<EventoDto>(model);
+                var evento = _mapper.Map<Evento>(model);
+            
+                _geralPersist.Add<Evento>(evento);
 
                 if(await _geralPersist.SaveChangesAsync())
                 {
-                    // return await _eventoPersist.GetEventoByIdAsync(model.Id, false);
+                    var eventoRetorno = await _eventoPersist.GetEventoByIdAsync(evento.Id, false);
+                    return _mapper.Map<EventoDto>(eventoRetorno);
                 }
 
                 return null;

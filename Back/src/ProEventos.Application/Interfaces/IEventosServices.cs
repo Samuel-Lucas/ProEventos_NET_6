@@ -4,7 +4,7 @@ namespace ProEventos.Application.Interfaces
 {
     public interface IEventosServices
     {
-        Task<EventoDto> AddEventos(EventoDto model);
+        Task<EventoDto> AddEvento(EventoDto model);
          Task<EventoDto> UpdateEvento(int eventoId, EventoDto model);
          Task<bool> DeleteEvento(int eventoId);
 
