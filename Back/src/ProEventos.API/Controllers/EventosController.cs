@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using ProEventos.API.Models;
+using ProEventos.Application.Dtos;
 using ProEventos.Application.Interfaces;
 using ProEventos.Domain.Models;
 
@@ -24,24 +24,8 @@ public class EventosController : ControllerBase
             var eventos = await _eventosServices.GetAllEventosAsync(true);
             if (eventos == null)
                 return NotFound("Nenhum evento encontrado");
-
-            var eventosRetorno = new List<EventoDto>();
-
-            foreach (var evento in eventos)
-            {
-                eventosRetorno.Add(new EventoDto() {
-                    Id = evento.Id,
-                    Local = evento.Local,
-                    DataEvento = evento.DataEvento.ToString(),
-                    Tema = evento.Tema,
-                    QtdPessoas = evento.QtdPessoas,
-                    ImagemUrl = evento.ImagemUrl,
-                    Telefone = evento.Telefone,
-                    Email = evento.Email
-                });
-            }
             
-            return Ok(eventosRetorno);
+            return Ok(eventos);
         }
         catch (Exception ex)
         {
@@ -54,7 +38,7 @@ public class EventosController : ControllerBase
     {
         try
         {
-            var evento = await _eventosServices.GetAllEventosByIdAsync(id, true);
+            var evento = await _eventosServices.GetEventoByIdAsync(id, true);
             if (evento == null)
                 return NotFound($"Nenhum evento encontrado do id: {id}");
             
@@ -84,7 +68,7 @@ public class EventosController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post(Evento model)
+    public async Task<IActionResult> Post(EventoDto model)
     {
         try
         {
@@ -101,7 +85,7 @@ public class EventosController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Put(int id, Evento model)
+    public async Task<IActionResult> Put(int id, EventoDto model)
     {
         try
         {
