@@ -23,7 +23,7 @@ public class EventosController : ControllerBase
         {
             var eventos = await _eventosServices.GetAllEventosAsync(true);
             if (eventos == null)
-                return NotFound("Nenhum evento encontrado");
+                return NoContent();
             
             return Ok(eventos);
         }
@@ -40,7 +40,7 @@ public class EventosController : ControllerBase
         {
             var evento = await _eventosServices.GetEventoByIdAsync(id, true);
             if (evento == null)
-                return NotFound($"Nenhum evento encontrado do id: {id}");
+                return NoContent();
             
             return Ok(evento);
         }
@@ -57,7 +57,7 @@ public class EventosController : ControllerBase
         {
             var evento = await _eventosServices.GetAllEventosByTemaAsync(tema, true);
             if (evento == null)
-                return NotFound($"Nenhum evento encontrado com tema: {tema}");
+                return NoContent();
             
             return Ok(evento);
         }
