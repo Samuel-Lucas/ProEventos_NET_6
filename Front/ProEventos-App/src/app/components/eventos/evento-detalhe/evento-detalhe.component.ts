@@ -15,6 +15,15 @@ export class EventoDetalheComponent implements OnInit {
     return this.form.controls
   }
 
+  get bsConfig(): any {
+    return {
+      adaptativePosition: true,
+      dateInputFormat: 'DD/MM/YYYY hh:mm a',
+      containerClass:'theme-default',
+      showWeekNumbers: false
+    }
+  }
+
   ngOnInit(): void {
     this.validation()
   }
