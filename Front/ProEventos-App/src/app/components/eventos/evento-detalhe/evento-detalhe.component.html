@@ -34,6 +34,7 @@
           <input type="datetime" class="form-control"
             [ngClass]="{'is-invalid': f.dataEvento.errors && f.dataEvento.touched}"
             formControlName="dataEvento" placeholder="Informe a data"
+            value = "{{ evento.dataEvento | DateTimeFormatPipe }}"
             bsDatepicker
             [bsConfig]="bsConfig" />
           <div class="invalid-feedback" *ngIf="f.dataEvento.errors?.required">
