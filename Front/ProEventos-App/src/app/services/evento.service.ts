@@ -15,7 +15,7 @@ export class EventoService {
     return this.http.get<Evento[]>(this.baseurl)
   }
 
-  public getEventosById(id: number): Observable<Evento> {
+  public getEventoById(id: number): Observable<Evento> {
     return this.http.get<Evento>(`${this.baseurl}/BuscaEventoPorId/${id}`)
   }
 
