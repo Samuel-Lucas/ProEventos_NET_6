@@ -18,6 +18,8 @@ export class EventoDetalheComponent implements OnInit {
 
   evento = {} as Evento
   form!: FormGroup
+  estadoSalvar = 'post'
+
   constructor(private fb: FormBuilder,
     private localeService: BsLocaleService,
     private router: ActivatedRoute,
@@ -52,6 +54,8 @@ export class EventoDetalheComponent implements OnInit {
     if (eventoIdParam !== null) {
       this.spinner.show()
 
+      this.estadoSalvar = 'put'
+
       const observer = {
         next: (evento: Evento) => {
           this.evento = { ... evento}
@@ -83,5 +87,39 @@ export class EventoDetalheComponent implements OnInit {
 
   public resetForm(): void {
     this.form.reset()
+  }
+
+  public salvarAlteracao(): void {
+    this.spinner.show()
+
+    if (this.form.valid) {
+      if (this.estadoSalvar === 'post') {
+        this.evento = {... this.form.value}
+        this.eventoService.postEvento(this.evento).subscribe(
+          () => {
+            this.toastr.success('Evento criado com sucesso', 'Criado !')
+          },
+          (error: any) => {
+            console.error(error)
+            this.spinner.hide()
+            this.toastr.error('Erro ao tentar criar o evento', 'Erro !')
+          },
+          () => this.spinner.hide(),
+        )
+      } else {
+        this.evento = {id: this.evento.id, ... this.form.value}
+        this.eventoService.putEvento(this.evento.id, this.evento).subscribe(
+          () => {
+            this.toastr.success('Evento alterado com sucesso', 'Alterado !')
+          },
+          (error: any) => {
+            console.error(error)
+            this.spinner.hide()
+            this.toastr.error('Erro ao tentar alterar o evento', 'Erro !')
+          },
+          () => this.spinner.hide(),
+        )
+      }
+    }
   }
 }

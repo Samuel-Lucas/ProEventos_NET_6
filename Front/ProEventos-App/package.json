@@ -23,6 +23,8 @@
     "@popperjs/core": "^2.10.2",
     "bootstrap": "^5.2.3",
     "bootswatch": "^5.2.3",
+    "date-fns": "^2.29.3",
+    "http-proxy-middleware": "^2.0.6",
     "ngx-bootstrap": "^9.0.0",
     "ngx-spinner": "^14.0.0",
     "ngx-toastr": "^14.3.0",

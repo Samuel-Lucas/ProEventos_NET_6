@@ -48,7 +48,7 @@ namespace ProEventos.Application.Services
                 var evento = await _eventoPersist.GetEventoByIdAsync(eventoId, false);
 
                 if(evento == null)
-                    return null;
+                    return null!;
 
                 model.Id = evento.Id;
 
@@ -66,6 +66,7 @@ namespace ProEventos.Application.Services
             }
             catch(Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 throw new Exception(ex.Message);
             }
         }
