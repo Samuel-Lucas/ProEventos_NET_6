@@ -107,7 +107,7 @@ public class EventosController : ControllerBase
         try
         {
             if (await _eventosServices.DeleteEvento(id))
-                return Ok($"Deletado");
+                return Ok(new { message = "Deletado"});
             else
                 return BadRequest("Evento não deletado");
         }
