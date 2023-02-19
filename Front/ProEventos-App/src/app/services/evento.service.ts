@@ -8,18 +8,30 @@ import { Evento } from '../models/Evento';
 )
 
 export class EventoService {
-  baseurl = 'https://localhost:7194/api/eventos';
+  baseURL = 'https://localhost:7194/api/eventos';
   constructor(private http: HttpClient) { }
 
   public getEventos(): Observable<Evento[]> {
-    return this.http.get<Evento[]>(this.baseurl)
+    return this.http.get<Evento[]>(this.baseURL)
   }
 
   public getEventoById(id: number): Observable<Evento> {
-    return this.http.get<Evento>(`${this.baseurl}/BuscaEventoPorId/${id}`)
+    return this.http.get<Evento>(`${this.baseURL}/BuscaEventoPorId/${id}`)
   }
 
   public getEventosByTema(tema: string): Observable<Evento[]> {
-    return this.http.get<Evento[]>(`${this.baseurl}/BuscaEventoPorTema/${tema}`)
+    return this.http.get<Evento[]>(`${this.baseURL}/BuscaEventoPorTema/${tema}`)
+  }
+
+  public postEvento(evento: Evento): Observable<Evento> {
+    return this.http.post<Evento>(this.baseURL, evento)
+  }
+
+  public putEvento(id: number, evento: Evento): Observable<Evento> {
+    return this.http.put<Evento>(`${this.baseURL}/${id}`, evento)
+  }
+
+  public deleteEvento(id: number): Observable<string> {
+    return this.http.delete<string>(`${this.baseURL}/${id}`)
   }
 }
