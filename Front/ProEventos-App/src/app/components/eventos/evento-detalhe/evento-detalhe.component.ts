@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
@@ -12,43 +12,20 @@ import { EventoService } from 'src/app/services/evento.service';
 @Component({
   selector: 'app-evento-detalhe',
   templateUrl: './evento-detalhe.component.html',
-  styleUrls: ['./evento-detalhe.component.scss']
+  styleUrls: ['./evento-detalhe.component.scss'],
 })
 export class EventoDetalheComponent implements OnInit {
 
-  evento: Evento
+  evento = {} as Evento
   form!: FormGroup
   constructor(private fb: FormBuilder,
     private localeService: BsLocaleService,
     private router: ActivatedRoute,
     private eventoService: EventoService,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService, vcr: ViewContainerRef)
+    private toastr: ToastrService)
   {
     this.localeService.use('pt-br')
-  }
-
-  public carregarEvento(): void {
-    const eventoIdParam = this.router.snapshot.paramMap.get('id')
-
-    if (eventoIdParam != null) {
-      this.spinner.show()
-
-      const observer = {
-        next: (evento: Evento) => {
-          this.evento = { ... evento}
-          this.form.patchValue(this.evento)
-        },
-        error: (error: any) => {
-          this.spinner.hide()
-          this.toastr.error('Erro ao tentar carregar o evento', 'Erro !')
-          console.error(error)
-        },
-        complete: () => this.spinner.hide()
-      }
-
-      this.eventoService.getEventoById(+eventoIdParam).subscribe(observer)
-    }
   }
 
   get f(): any {
@@ -67,6 +44,29 @@ export class EventoDetalheComponent implements OnInit {
   ngOnInit(): void {
     this.carregarEvento()
     this.validation()
+  }
+
+  public carregarEvento(): void {
+    const eventoIdParam = this.router.snapshot.paramMap.get('id')
+
+    if (eventoIdParam !== null) {
+      this.spinner.show()
+
+      const observer = {
+        next: (evento: Evento) => {
+          this.evento = { ... evento}
+          this.form.patchValue(this.evento)
+        },
+        error: (error: any) => {
+          this.spinner.hide()
+          this.toastr.error('Erro ao carregar o evento', 'Erro !')
+          console.error(error)
+        },
+        complete: () => this.spinner.hide()
+      }
+
+      this.eventoService.getEventoById(+eventoIdParam).subscribe(observer)
+    }
   }
 
   public validation(): void {
