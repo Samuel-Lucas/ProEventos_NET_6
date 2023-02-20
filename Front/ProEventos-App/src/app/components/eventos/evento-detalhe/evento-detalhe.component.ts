@@ -93,33 +93,21 @@ export class EventoDetalheComponent implements OnInit {
     this.spinner.show()
 
     if (this.form.valid) {
-      if (this.estadoSalvar === 'post') {
-        this.evento = {... this.form.value}
-        this.eventoService.postEvento(this.evento).subscribe(
-          () => {
-            this.toastr.success('Evento criado com sucesso', 'Criado !')
-          },
-          (error: any) => {
-            console.error(error)
-            this.spinner.hide()
-            this.toastr.error('Erro ao tentar criar o evento', 'Erro !')
-          },
-          () => this.spinner.hide(),
-        )
-      } else {
-        this.evento = {id: this.evento.id, ... this.form.value}
-        this.eventoService.putEvento(this.evento.id, this.evento).subscribe(
-          () => {
-            this.toastr.success('Evento alterado com sucesso', 'Alterado !')
-          },
-          (error: any) => {
-            console.error(error)
-            this.spinner.hide()
-            this.toastr.error('Erro ao tentar alterar o evento', 'Erro !')
-          },
-          () => this.spinner.hide(),
-        )
-      }
+      this.evento = (this.estadoSalvar === 'post')
+                    ? {... this.form.value}
+                    : {id: this.evento.id, ... this.form.value}
+
+      this.eventoService[this.estadoSalvar](this.evento).subscribe(
+        () => {
+          this.toastr.success('Evento salvo com sucesso', 'Salvo !')
+        },
+        (error: any) => {
+          console.error(error)
+          this.spinner.hide()
+          this.toastr.error('Erro ao tentar salvar o evento', 'Erro !')
+        },
+        () => this.spinner.hide(),
+      )
     }
   }
 }
