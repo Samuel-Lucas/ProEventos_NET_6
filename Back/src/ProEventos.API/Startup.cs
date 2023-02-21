@@ -30,10 +30,12 @@ public class Startup
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         
         services.AddCors();
-        services.AddScoped<IEventosServices, EventosServices>();
         services.AddScoped<IGeralPersist, GeralPersist>();
         services.AddScoped<IEventoPersist, EventoPersist>();
+        services.AddScoped<ILotePersist, LotePersist>();
         services.AddScoped<IPalestrantePersist, PalestrantePersist>();
+        services.AddScoped<IEventosServices, EventosServices>();
+        services.AddScoped<ILoteServices, LoteServices>();
         services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProEventos.API", Version = "v1" });

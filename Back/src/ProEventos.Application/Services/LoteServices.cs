@@ -85,7 +85,7 @@ public class LoteServices : ILoteServices
             else
             {
                 var lote = lotes.FirstOrDefault(lote => lote.Id == model.Id);
-                model.EventoId.Id = eventoId;
+                model.EventoId = eventoId;
 
                 _mapper.Map(model, lote);
 
