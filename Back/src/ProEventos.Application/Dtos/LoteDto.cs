@@ -8,6 +8,6 @@ namespace ProEventos.Application.Dtos
         public string? DataInicio { get; set; }
         public string? DataFim { get; set; }
         public int Quantidade { get; set; }
-        public EventoDto Evento { get; set; }
+        public EventoDto EventoId { get; set; } = null!;
     }
 }
