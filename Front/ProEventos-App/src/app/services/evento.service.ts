@@ -3,12 +3,11 @@ import { Injectable } from '@angular/core';
 import { Observable, take } from 'rxjs';
 import { Evento } from '../models/Evento';
 
-@Injectable(
-  // { providedIn: 'root' }
-)
+@Injectable()
 
 export class EventoService {
-  baseURL = 'https://localhost:7194/api/eventos';
+  baseURL = 'https://localhost:7194/api/eventos'
+
   constructor(private http: HttpClient) { }
 
   public getEventos(): Observable<Evento[]> {
