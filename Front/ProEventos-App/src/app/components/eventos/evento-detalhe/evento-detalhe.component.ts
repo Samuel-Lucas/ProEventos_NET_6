@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -23,10 +23,11 @@ export class EventoDetalheComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private localeService: BsLocaleService,
-    private router: ActivatedRoute,
+    private activatedrouter: ActivatedRoute,
     private eventoService: EventoService,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService)
+    private toastr: ToastrService,
+    private router: Router)
   {
     this.localeService.use('pt-br')
   }
@@ -37,6 +38,10 @@ export class EventoDetalheComponent implements OnInit {
 
   get f(): any {
     return this.form.controls
+  }
+
+  get modoEditar(): boolean {
+    return this.estadoSalvar === 'put'
   }
 
   get bsConfig(): any {
@@ -54,7 +59,7 @@ export class EventoDetalheComponent implements OnInit {
   }
 
   public carregarEvento(): void {
-    const eventoIdParam = this.router.snapshot.paramMap.get('id')
+    const eventoIdParam = this.activatedrouter.snapshot.paramMap.get('id')
 
     if (eventoIdParam !== null) {
       this.spinner.show()
@@ -121,8 +126,9 @@ export class EventoDetalheComponent implements OnInit {
                     : {id: this.evento.id, ... this.form.value}
 
       this.eventoService[this.estadoSalvar](this.evento).subscribe(
-        () => {
+        (eventoRetorno: Evento) => {
           this.toastr.success('Evento salvo com sucesso', 'Salvo !')
+          this.router.navigate([`eventos/detalhe/${eventoRetorno.id}`])
         },
         (error: any) => {
           console.error(error)

@@ -76,7 +76,7 @@ public class EventosController : ControllerBase
             if (evento == null)
                 return BadRequest($"Erro ao tentar incluir evento");
             
-            return NoContent();
+            return Ok(evento);
         }
         catch (Exception ex)
         {
