@@ -8,7 +8,9 @@ import { ToastrService } from 'ngx-toastr';
 
 import { Evento } from 'src/app/models/Evento';
 import { Lote } from 'src/app/models/Lote';
+
 import { EventoService } from 'src/app/services/evento.service';
+import { LoteService } from 'src/app/services/lote.service';
 
 @Component({
   selector: 'app-evento-detalhe',
@@ -17,6 +19,7 @@ import { EventoService } from 'src/app/services/evento.service';
 })
 export class EventoDetalheComponent implements OnInit {
 
+  eventoId: number
   evento = {} as Evento
   form!: FormGroup
   estadoSalvar = 'post'
@@ -25,6 +28,7 @@ export class EventoDetalheComponent implements OnInit {
     private localeService: BsLocaleService,
     private activatedrouter: ActivatedRoute,
     private eventoService: EventoService,
+    private loteService: LoteService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private router: Router)
@@ -59,9 +63,9 @@ export class EventoDetalheComponent implements OnInit {
   }
 
   public carregarEvento(): void {
-    const eventoIdParam = this.activatedrouter.snapshot.paramMap.get('id')
+    this.eventoId = +this.activatedrouter.snapshot.paramMap.get('id')
 
-    if (eventoIdParam !== null) {
+    if (this.eventoId !== null || this.eventoId === 0) {
       this.spinner.show()
 
       this.estadoSalvar = 'put'
@@ -70,6 +74,9 @@ export class EventoDetalheComponent implements OnInit {
         next: (evento: Evento) => {
           this.evento = { ... evento}
           this.form.patchValue(this.evento)
+          this.evento.lotes.forEach(lote => {
+            this.lotes.push(this.criarLote(lote))
+          })
         },
         error: (error: any) => {
           this.spinner.hide()
@@ -79,7 +86,7 @@ export class EventoDetalheComponent implements OnInit {
         complete: () => this.spinner.hide()
       }
 
-      this.eventoService.getEventoById(+eventoIdParam).subscribe(observer)
+      this.eventoService.getEventoById(this.eventoId).subscribe(observer)
     }
   }
 
@@ -117,7 +124,7 @@ export class EventoDetalheComponent implements OnInit {
     this.form.reset()
   }
 
-  public salvarAlteracao(): void {
+  public salvarEvento(): void {
     this.spinner.show()
 
     if (this.form.valid) {
@@ -133,6 +140,23 @@ export class EventoDetalheComponent implements OnInit {
         (error: any) => {
           console.error(error)
           this.toastr.error('Erro ao tentar salvar o evento', 'Erro !')
+        },
+      ).add(() => this.spinner.hide())
+    }
+  }
+
+  public salvarLotes(): void {
+    this.spinner.show()
+
+    if (this.form.controls['lotes'].valid) {
+      this.loteService.saveLote(this.eventoId, this.form.value.lotes).subscribe(
+        () => {
+          this.toastr.success('Lotes salvos com sucesso', 'Salvo !')
+          this.lotes.reset()
+        },
+        (error: any) => {
+          console.error(error)
+          this.toastr.error('Erro ao tentar salvar lotes', 'Erro !')
         },
       ).add(() => this.spinner.hide())
     }
