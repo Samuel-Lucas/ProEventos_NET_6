@@ -11,7 +11,8 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgxCurrencyModule } from 'ngx-currency';
 import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -71,7 +72,8 @@ defineLocale('pt-br', ptBrLocale);
       preventDuplicates: true,
       progressBar: true,
     }),
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgxCurrencyModule
   ],
   providers: [
     EventoService,
