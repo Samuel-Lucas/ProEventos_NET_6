@@ -96,8 +96,8 @@ public class EventosController : ControllerBase
             var file = Request.Form.Files[0];
             if (file.Length > 0) 
             {
-                DeleteImage(evento.ImagemUrl)
-                // evento.ImagemUrl = SaveImage(file);
+                DeleteImage(evento.ImagemUrl);
+                evento.ImagemUrl = await SaveImage(file);
             }
 
             var eventoRetorno = await _eventosServices.UpdateEvento(eventoId, evento);
@@ -141,6 +141,26 @@ public class EventosController : ControllerBase
         {
             return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar deletar evento. Erro {ex.Message}");
         }
+    }
+
+    [NonAction]
+    public async Task<string> SaveImage(IFormFile imageFile)
+    {
+        string imageName = new String(Path.GetFileNameWithoutExtension(imageFile.Name)
+                                            .Take(10)
+                                            .ToArray()
+                                    ).Replace(' ', '-');
+
+        imageName = $"{imageName}{DateTime.UtcNow.ToString("yyyymmssfff")}{Path.GetExtension(imageFile.FileName)}";
+
+        var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, @"Resources/Images", imageName);
+
+        using (var fileStream = new FileStream(imagePath, FileMode.Create))
+        {
+            await imageFile.CopyToAsync(fileStream);
+        }
+
+        return imageName;
     }
 
     [NonAction]
