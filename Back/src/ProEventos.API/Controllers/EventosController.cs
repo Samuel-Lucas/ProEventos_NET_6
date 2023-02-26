@@ -84,6 +84,31 @@ public class EventosController : ControllerBase
         }
     }
 
+    [HttpPost("upload-image/{eventoId}")]
+    public async Task<IActionResult> UploadImage(int eventoId)
+    {
+        try
+        {
+            var evento = await _eventosServices.GetEventoByIdAsync(eventoId, true);
+            if (evento == null) return NoContent();
+
+            var file = Request.Form.Files[0];
+            if (file.Length > 0) 
+            {
+                // DeleteImage(evento.ImageUrl)
+                // evento.ImagemUrl = SaveImage(file);
+            }
+
+            var eventoRetorno = await _eventosServices.UpdateEvento(eventoId, evento);
+            
+            return Ok(evento);
+        }
+        catch (Exception ex)
+        {
+            return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar recuperar evento. Erro {ex.Message}");
+        }
+    }
+
     [HttpPut("{id}")]
     public async Task<IActionResult> Put(int id, EventoDto model)
     {
