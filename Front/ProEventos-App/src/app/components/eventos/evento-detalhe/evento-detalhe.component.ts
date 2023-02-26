@@ -26,6 +26,7 @@ export class EventoDetalheComponent implements OnInit {
   loteAtual = {id: 0, nome: '', indice: 0}
   form!: FormGroup
   estadoSalvar = 'post'
+  imagemUrl = 'assets/upload-image.jpg'
 
   constructor(private fb: FormBuilder,
     private localeService: BsLocaleService,
