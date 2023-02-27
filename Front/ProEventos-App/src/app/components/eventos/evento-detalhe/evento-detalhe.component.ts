@@ -12,6 +12,7 @@ import { Lote } from 'src/app/models/Lote';
 
 import { EventoService } from 'src/app/services/evento.service';
 import { LoteService } from 'src/app/services/lote.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-evento-detalhe',
@@ -80,6 +81,11 @@ export class EventoDetalheComponent implements OnInit {
         next: (evento: Evento) => {
           this.evento = { ... evento}
           this.form.patchValue(this.evento)
+
+          if (this.evento.imagemUrl !==  '') {
+            this.imagemUrl = `${environment.apiUrl}resources/images/${this.evento.imagemUrl}`
+          }
+
           this.evento.lotes.forEach(lote => {
             this.lotes.push(this.criarLote(lote))
           })
