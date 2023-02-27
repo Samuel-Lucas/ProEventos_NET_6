@@ -27,6 +27,7 @@ export class EventoDetalheComponent implements OnInit {
   form!: FormGroup
   estadoSalvar = 'post'
   imagemUrl = 'assets/upload-image.jpg'
+  file: File
 
   constructor(private fb: FormBuilder,
     private localeService: BsLocaleService,
@@ -200,5 +201,14 @@ export class EventoDetalheComponent implements OnInit {
 
   declineDeleteLote(): void {
     this.modalRef.hide()
+  }
+
+  onFileChange(ev: any): void {
+    const reader = new FileReader()
+
+    reader.onload = (event: any) => this.imagemUrl = event.target.result
+
+    this.file = ev.target.files
+    reader.readAsDataURL(this.file[0])
   }
 }
