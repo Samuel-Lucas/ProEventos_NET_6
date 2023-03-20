@@ -33,7 +33,7 @@ namespace ProEventos.Application.Services
                     return _mapper.Map<EventoDto>(eventoRetorno);
                 }
 
-                return null;
+                return null!;
             }
             catch(Exception ex)
             {
@@ -62,7 +62,7 @@ namespace ProEventos.Application.Services
                     return _mapper.Map<EventoDto>(eventoRetorno);
                 }
 
-                return null;
+                return null!;
             }
             catch(Exception ex)
             {
@@ -97,7 +97,7 @@ namespace ProEventos.Application.Services
                 var eventos = await _eventoPersist.GetAllEventosAsync(includePalestrantes);
 
                 if(eventos == null)
-                    return null;
+                    return null!;
                 
                 var resultado = _mapper.Map<EventoDto[]>(eventos);
                 
@@ -115,7 +115,7 @@ namespace ProEventos.Application.Services
             {
                 var evento = await _eventoPersist.GetEventoByIdAsync(eventoId, includePalestrantes);
 
-                if(evento == null) return null;
+                if(evento == null) return null!;
 
                 var resultado = _mapper.Map<EventoDto>(evento);
                 
@@ -133,7 +133,7 @@ namespace ProEventos.Application.Services
             {
                 var eventosPorTema = await _eventoPersist.GetAllEventosByTemaAsync(tema, includePalestrantes);
 
-                if(eventosPorTema == null) return null;
+                if(eventosPorTema == null) return null!;
                 
                 var resultado = _mapper.Map<EventoDto[]>(eventosPorTema);
                 
