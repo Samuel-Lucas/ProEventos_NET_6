@@ -10,9 +10,9 @@ import { isValid, parse } from 'date-fns';
 export class DateTimeFormatPipe extends DatePipe implements PipeTransform {
 
   override transform(value: any, args?: any): any {
-    const dateValue = parse(value, 'dd/MM/yyyy HH:mm:ss', new Date());
+    const dateValue = parse(value, 'dd/MM/yyyy HH:mm:ss', new Date())
     if (isValid(dateValue)) {
-      return super.transform(dateValue, Constants.DATE_TIME_FMT);
+      return super.transform(dateValue, Constants.DATE_TIME_FMT)
     }
   }
 }
