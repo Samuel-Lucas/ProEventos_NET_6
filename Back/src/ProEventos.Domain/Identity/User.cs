@@ -1,0 +1,15 @@
+using ProEventos.Domain.Enum;
+
+namespace ProEventos.Domain.Identity
+{
+    public class User
+    {
+        public string PrimeiroNome { get; set; } = null!;
+        public string UltimoNome { get; set; } = null!;
+        public Titulo Titulo { get; set; }
+        public string Descricao { get; set; } = null!;
+        public Funcao Funcao { get; set; }
+        public string ImagemURL { get; set; } = null!;
+        public IEnumerable<UserRole> UserRoles { get; set; } = null!;
+    }
+}
