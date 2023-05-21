@@ -7,7 +7,7 @@ using ProEventos.Domain.Models;
 namespace ProEventos.Persistence.Context
 {
     public class ProEventosContexto : IdentityDbContext<User, Role, int,
-                                                        IdentityUserClaim<int>, IdentityUserRole<int>, IdentityUserLogin<int>,
+                                                        IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>,
                                                         IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public ProEventosContexto(DbContextOptions<ProEventosContexto> options)
