@@ -99,6 +99,7 @@ public class Startup
 
         app.UseRouting();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.UseCors(x => x.AllowAnyHeader()
