@@ -5,8 +5,8 @@ using ProEventos.Application.Services;
 using ProEventos.Persistence;
 using ProEventos.Persistence.Context;
 using ProEventos.Persistence.Interfaces;
-using System.IO;
 using Microsoft.Extensions.FileProviders;
+using System.Text.Json.Serialization;
 
 namespace ProEventos.API;
 
@@ -26,17 +26,26 @@ public class Startup
             context => context.UseSqlite(Configuration.GetConnectionString("Default"))
         );
         services.AddControllers()
-                .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+                .AddJsonOptions(options => 
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter())
+                )
+                .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         
         services.AddCors();
         services.AddScoped<IGeralPersist, GeralPersist>();
         services.AddScoped<IEventoPersist, EventoPersist>();
-        services.AddScoped<ILotePersist, LotePersist>();
-        services.AddScoped<IPalestrantePersist, PalestrantePersist>();
         services.AddScoped<IEventosServices, EventosServices>();
+        services.AddScoped<ILotePersist, LotePersist>();
         services.AddScoped<ILoteServices, LoteServices>();
+        services.AddScoped<IPalestrantePersist, PalestrantePersist>();
+
+
+        services.AddScoped<IUserPersist, UserPersist>();
+        services.AddScoped<ITokenServices, TokenServices>();
+        services.AddScoped<IAccountServices, AccountServices>();
+
         services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProEventos.API", Version = "v1" });
