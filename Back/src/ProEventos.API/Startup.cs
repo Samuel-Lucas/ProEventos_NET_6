@@ -7,6 +7,8 @@ using ProEventos.Persistence.Context;
 using ProEventos.Persistence.Interfaces;
 using Microsoft.Extensions.FileProviders;
 using System.Text.Json.Serialization;
+using ProEventos.Domain.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace ProEventos.API;
 
@@ -25,6 +27,22 @@ public class Startup
         services.AddDbContext<ProEventosContexto>(
             context => context.UseSqlite(Configuration.GetConnectionString("Default"))
         );
+
+        services.AddIdentityCore<User>(options =>
+        {
+            options.Password.RequireDigit = false;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireLowercase = false;
+            options.Password.RequireUppercase = false;
+            options.Password.RequiredLength = 4;
+        })
+        .AddRoles<Role>()
+        .AddRoleManager<RoleManager<Role>>()
+        .AddSignInManager<SignInManager<User>>()
+        .AddRoleValidator<RoleValidator<Role>>()
+        .AddEntityFrameworkStores<ProEventosContexto>()
+        .AddDefaultTokenProviders();
+
         services.AddControllers()
                 .AddJsonOptions(options => 
                     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter())
