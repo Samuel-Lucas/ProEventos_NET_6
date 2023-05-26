@@ -54,5 +54,32 @@ namespace ProEventos.API.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar registrar usuário. Erro {ex.Message}");
             }
         }
+
+        [HttpPost("Login")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(UserLoginDto userLogin)
+        {
+            try
+            {
+                var user = await _accountServices.GetUserByusernameAsync(userLogin.Username);
+                if (user == null)
+                    return Unauthorized("Usuário inválido !");
+
+                var result = await _accountServices.CheckUserPasswordAsync(user, userLogin.Password);
+                if (!result.Succeeded)
+                    return Unauthorized();
+                
+                return Ok(new
+                {
+                    userName = user.Username,
+                    primeiroNome = user.PrimeiroNome,
+                    token = _tokenServices.CreateToken(user).Result
+                });
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar registrar usuário. Erro {ex.Message}");
+            }
+        }
     }
 }
