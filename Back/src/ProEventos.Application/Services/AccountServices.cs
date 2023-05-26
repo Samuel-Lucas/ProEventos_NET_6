@@ -58,7 +58,9 @@ namespace ProEventos.Application.Services
             }
             catch (Exception ex)
             {
-                throw new Exception($"Erro ao tentar criar conta. Error: {ex.Message}");
+                var msg = $"Erro ao tentar criar conta. Error: {ex.Message} {ex.InnerException}";
+                var inner = ex.InnerException;
+                throw new Exception(msg);
             }
         }
 
