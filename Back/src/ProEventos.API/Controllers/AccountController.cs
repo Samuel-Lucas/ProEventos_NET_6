@@ -38,7 +38,6 @@ namespace ProEventos.API.Controllers
         }
 
         [HttpPost("Register")]
-        [AllowAnonymous]
         public async Task<IActionResult> Register(UserDto userDto)
         {
             try
@@ -59,7 +58,6 @@ namespace ProEventos.API.Controllers
         }
 
         [HttpPost("Login")]
-        [AllowAnonymous]
         public async Task<IActionResult> Login(UserLoginDto userLogin)
         {
             try
@@ -81,7 +79,26 @@ namespace ProEventos.API.Controllers
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar registrar usuário. Erro {ex.Message}");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar realizar login. Erro {ex.Message}");
+            }
+        }
+
+        [HttpPut("UpdateUser")]
+        public async Task<IActionResult> UpdateUser(UserUpdateDto userUpdateDto)
+        {
+            try
+            {
+                var user = await _accountServices.GetUserByusernameAsync(User.GetUserName());
+                if (user == null) return Unauthorized("Usuário inválido !");
+                
+                var userReturn = await _accountServices.UpdateAccountAsync(userUpdateDto);
+                if (userReturn != null) return NoContent();
+                
+                return BadRequest("Usuário não criado, tente novamente mais tarde !");
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar atualizar usuário. Erro {ex.Message}");
             }
         }
     }
