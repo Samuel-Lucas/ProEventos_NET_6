@@ -22,6 +22,7 @@ namespace ProEventos.API.Controllers
         }
 
         [HttpGet("GetUser/{userName}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetUser()
         {
             try
@@ -58,6 +59,7 @@ namespace ProEventos.API.Controllers
         }
 
         [HttpPost("Login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(UserLoginDto userLogin)
         {
             try

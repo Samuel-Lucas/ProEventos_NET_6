@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using ProEventos.API.Extensions;
 using ProEventos.Application.Dtos;
 using ProEventos.Application.Interfaces;
 
@@ -10,10 +11,14 @@ public class EventosController : ControllerBase
 {
     private readonly IEventosServices _eventosServices;
     private readonly IWebHostEnvironment _hostEnvironment;
+    private readonly IAccountServices _accountServices;
 
-    public EventosController(IEventosServices eventosServices, IWebHostEnvironment hostEnvironment)
+    public EventosController(IEventosServices eventosServices,
+                             IWebHostEnvironment hostEnvironment,
+                             IAccountServices accountServices)
     {
         _hostEnvironment = hostEnvironment;
+        _accountServices = accountServices;
         _eventosServices = eventosServices;
     }
 
@@ -22,7 +27,7 @@ public class EventosController : ControllerBase
     {
         try
         {
-            var eventos = await _eventosServices.GetAllEventosAsync(true);
+            var eventos = await _eventosServices.GetAllEventosAsync(User.GetUserId(), true);
             if (eventos == null)
                 return NoContent();
             
@@ -39,7 +44,7 @@ public class EventosController : ControllerBase
     {
         try
         {
-            var evento = await _eventosServices.GetEventoByIdAsync(id, true);
+            var evento = await _eventosServices.GetEventoByIdAsync(User.GetUserId(), id, true);
             if (evento == null)
                 return NoContent();
             
@@ -56,7 +61,7 @@ public class EventosController : ControllerBase
     {
         try
         {
-            var evento = await _eventosServices.GetAllEventosByTemaAsync(tema, true);
+            var evento = await _eventosServices.GetAllEventosByTemaAsync(User.GetUserId(), tema, true);
             if (evento == null)
                 return NoContent();
             
@@ -73,34 +78,9 @@ public class EventosController : ControllerBase
     {
         try
         {
-            var evento = await _eventosServices.AddEvento(model);
+            var evento = await _eventosServices.AddEvento(User.GetUserId(), model);
             if (evento == null)
                 return BadRequest($"Erro ao tentar incluir evento");
-            
-            return Ok(evento);
-        }
-        catch (Exception ex)
-        {
-            return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar recuperar evento. Erro {ex.Message}");
-        }
-    }
-
-    [HttpPost("upload-image/{eventoId}")]
-    public async Task<IActionResult> UploadImage(int eventoId)
-    {
-        try
-        {
-            var evento = await _eventosServices.GetEventoByIdAsync(eventoId, true);
-            if (evento == null) return NoContent();
-
-            var file = Request.Form.Files[0];
-            if (file.Length > 0) 
-            {
-                DeleteImage(evento.ImagemUrl);
-                evento.ImagemUrl = await SaveImage(file);
-            }
-
-            var eventoRetorno = await _eventosServices.UpdateEvento(eventoId, evento);
             
             return Ok(evento);
         }
@@ -115,7 +95,7 @@ public class EventosController : ControllerBase
     {
         try
         {
-            var evento = await _eventosServices.UpdateEvento(id, model);
+            var evento = await _eventosServices.UpdateEvento(User.GetUserId(), id, model);
             if (evento == null)
                 return BadRequest($"Erro ao tentar atualizar evento");
             
@@ -132,10 +112,10 @@ public class EventosController : ControllerBase
     {
         try
         {
-            var evento = await _eventosServices.GetEventoByIdAsync(id, true);
+            var evento = await _eventosServices.GetEventoByIdAsync(User.GetUserId(), id, true);
             if (evento == null) return NoContent();
 
-            if (await _eventosServices.DeleteEvento(id))
+            if (await _eventosServices.DeleteEvento(User.GetUserId(), id))
             {
                 DeleteImage(evento.ImagemUrl);
                 return Ok(new { message = "Deletado"});
@@ -148,6 +128,31 @@ public class EventosController : ControllerBase
         catch (Exception ex)
         {
             return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar deletar evento. Erro {ex.Message}");
+        }
+    }
+
+    [HttpPost("upload-image/{eventoId}")]
+    public async Task<IActionResult> UploadImage(int eventoId)
+    {
+        try
+        {
+            var evento = await _eventosServices.GetEventoByIdAsync(User.GetUserId(), eventoId, true);
+            if (evento == null) return NoContent();
+
+            var file = Request.Form.Files[0];
+            if (file.Length > 0) 
+            {
+                DeleteImage(evento.ImagemUrl);
+                evento.ImagemUrl = await SaveImage(file);
+            }
+
+            var eventoRetorno = await _eventosServices.UpdateEvento(User.GetUserId(), eventoId, evento);
+            
+            return Ok(evento);
+        }
+        catch (Exception ex)
+        {
+            return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar recuperar evento. Erro {ex.Message}");
         }
     }
 

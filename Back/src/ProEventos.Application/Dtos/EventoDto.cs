@@ -8,7 +8,7 @@ namespace ProEventos.Application.Dtos
 
         public string Local { get; set; } = null!;
 
-        public string DataEvento { get; set; } = null!;
+        public string? DataEvento { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório"),
          MinLength(3, ErrorMessage = "{0} deve ter no mínimo 4 caracteres"),
@@ -32,6 +32,9 @@ namespace ProEventos.Application.Dtos
         [EmailAddress(ErrorMessage = "É necessário ser um {0} válido")]
 
         public string Email { get; set; } = null!;
+
+        public int UserId { get; set; }
+        public UserDto? UserDto { get; set; }
 
         public IEnumerable<LoteDto>? Lotes { get; set; }
         public IEnumerable<RedeSocialDto>? RedesSociais { get; set; }
