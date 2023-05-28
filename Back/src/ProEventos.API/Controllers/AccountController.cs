@@ -1,5 +1,7 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProEventos.API.Extensions;
 using ProEventos.Application.Dtos;
 using ProEventos.Application.Interfaces;
 
@@ -20,10 +22,11 @@ namespace ProEventos.API.Controllers
         }
 
         [HttpGet("GetUser/{userName}")]
-        public async Task<IActionResult> GetUser(string userName)
+        public async Task<IActionResult> GetUser()
         {
             try
             {
+                var userName = User.GetUserName();
                 var user = await _accountServices.GetUserByusernameAsync(userName);
 
                 return Ok(user);
