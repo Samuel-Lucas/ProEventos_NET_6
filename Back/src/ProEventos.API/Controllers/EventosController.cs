@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProEventos.API.Extensions;
 using ProEventos.Application.Dtos;
@@ -6,6 +7,7 @@ using ProEventos.Application.Interfaces;
 namespace ProEventos.API.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class EventosController : ControllerBase
 {
