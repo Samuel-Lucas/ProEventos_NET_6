@@ -8,7 +8,7 @@ import { Evento } from '../models/Evento';
 
 export class EventoService {
   baseURL = `${environment.apiUrl}api/eventos`
-  tokenHeader = new HttpHeaders({ 'Authorization': 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwibmFtZSI6InNhbSIsIm5iZiI6MTY4NTMxODUwMCwiZXhwIjoxNjg1NDA0OTAwLCJpYXQiOjE2ODUzMTg1MDB9.Eio-B7nm9uf6unfTYwg6X4-RizrKCg1oO_F71PML3s_bDX7VKSJIjXCoHLg7xBnffJT4vUEeZZFI5C1x3Eq-CA' });
+  tokenHeader = new HttpHeaders({ 'Authorization': 'Bearer ' });
 
   constructor(private http: HttpClient) { }
 
