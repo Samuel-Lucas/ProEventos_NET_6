@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControlOptions, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ValidatorFields } from 'src/app/helpers/ValidatorField';
+import { User } from 'src/app/models/identity/User';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-registration',
@@ -9,8 +13,12 @@ import { ValidatorFields } from 'src/app/helpers/ValidatorField';
 })
 export class RegistrationComponent implements OnInit {
 
+  user = {} as User;
   form!: FormGroup
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+              private accountService: AccountService,
+              private router: Router,
+              private toaster: ToastrService) { }
 
   get f(): any {
     return this.form.controls
@@ -23,7 +31,7 @@ export class RegistrationComponent implements OnInit {
   private validation(): void {
 
     const formOptions: AbstractControlOptions = {
-      validators: ValidatorFields.mustMatch('senha', 'confirmaSenha')
+      validators: ValidatorFields.mustMatch('password', 'confirmaPassword')
     }
 
     this.form = this.fb.group({
@@ -31,8 +39,16 @@ export class RegistrationComponent implements OnInit {
       ultimoNome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
       email: ['', [Validators.required, Validators.email]],
       userName: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(12)]],
-      senha: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(15)]],
-      confirmaSenha: ['', Validators.required]
+      password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(15)]],
+      confirmaPassword: ['', Validators.required]
     }, formOptions)
+  }
+
+  register(): void {
+    this.user = { ...this.form.value };
+    this.accountService.register(this.user).subscribe(
+      () => this.router.navigateByUrl('/dashboard'),
+      (error: any) => this.toaster.error(error.error)
+    )
   }
 }
