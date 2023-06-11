@@ -8,7 +8,7 @@ import { Evento } from '../models/Evento';
 
 export class EventoService {
   baseURL = `${environment.apiUrl}api/eventos`
-  tokenHeader = new HttpHeaders({ 'Authorization': 'Bearer ' });
+  tokenHeader = new HttpHeaders({ 'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user')).token}` });
 
   constructor(private http: HttpClient) { }
 

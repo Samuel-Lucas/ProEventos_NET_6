@@ -39,6 +39,7 @@ namespace ProEventos.API.Controllers
         }
 
         [HttpPost("Register")]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(UserDto userDto)
         {
             try
@@ -48,7 +49,12 @@ namespace ProEventos.API.Controllers
                 
                 var user = await _accountServices.CreateAccountAsync(userDto);
                 if (user != null)
-                    return Ok(user);
+                    return Ok(new
+                    {
+                        userName = user.Username,
+                        primeiroNome = user.PrimeiroNome,
+                        token = _tokenServices.CreateToken(user).Result
+                    });
                 
                 return BadRequest("Usuário não criado, tente novamente mais tarde !");
             }
